@@ -1,0 +1,133 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+  background-color: #ffffff;
+  color: #212429;
+}
+
+/* Aquí esta la parte opcional */
+
+header {
+  display: flex;
+  padding: 20px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.barra {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.menu {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  color: #212429;
+}
+
+.menu li a {
+  text-decoration: none;
+}
+
+.iconos a {
+  color: #212429;
+  margin-left: 20px;
+  text-decoration: none;
+}
+
+/* Este es el final de la parte del header */
+
+h1 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 32px;
+  font-weight: 800; /* He puesto un poco mas de grosor*/
+  text-align: left;
+  margin: 32px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* ancho de colummnas*/
+  gap: 20px;
+  max-width: 1280px; /* ancho de pantalla */
+  padding: 32px;
+  margin: auto;
+}
+
+.vestido {
+  align-items: center;
+  background-color: #ffffff;
+  padding: 16px;
+}
+
+.vestido img {
+  max-width: 100%;
+  height: auto; /* Aquí no se si es auto o hay que poner el height */
+}
+
+.informacion {
+  display: flex;
+  justify-content: space-between; /* aquí no he podido alinear bien el tipo de ropa con la ropa, no se queda centrado*/
+  gap: 5px;
+  align-items: center;
+  font-size: 14px;
+  margin-top: 8px;
+  padding: 8px;
+}
+
+.informacion h2 {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.informacion .precio {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* Aquí va el footer */
+
+footer {
+  display: flex;
+  padding: 20px;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #212429;
+  color: #ffffff;
+  padding: 16px;
+}
+
+.footing {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.bajo {
+  text-align: center;
+  font-size: 65%;
+  flex-wrap: wrap;
+}
+
+.bajo img {
+  color: #212429;
+  background-color: #ffffff;
+  gap: 16px;
+}
+
+.bajo1 {
+  text-align: end;
+  font-size: 65%;
+}
