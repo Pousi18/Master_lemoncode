@@ -45,6 +45,21 @@ button:hover {
 }
 
 
+.operador {
+  margin-top: 20px;
+  display: flex;
+  justify-content: top;
+  gap: 10px;
+}
+
+.operador input {
+  padding: 10px;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

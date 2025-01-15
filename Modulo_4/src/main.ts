@@ -1,7 +1,4 @@
-
-
 //Elementos del Dom
-
 
 const numeroTurno = document.getElementById("numero-turno") as HTMLElement;
 const anterior = document.getElementById("anterior") as HTMLElement;
@@ -29,11 +26,16 @@ const disminuirTurno = () => {
 
 }
 
+
+// Aumento turno
+
 const aumentaTurno = () => {
 
     turnoActual = Math.max(0, turnoActual + 1);
     actualizaTurno();
 }
+
+//Reseteo el turno
 
 const resetTurno = () => {
 
@@ -43,6 +45,10 @@ const resetTurno = () => {
 }
 
 
+
+
+
+//Acciones de click
 
 
 siguiente.addEventListener("click" , aumentaTurno);
