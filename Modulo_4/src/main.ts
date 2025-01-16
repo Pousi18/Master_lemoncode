@@ -1,72 +1,60 @@
-//Elementos del Dom
+// Elementos del DOM
+const numeroTurnoElement = document.getElementById("numero-turno");
+const anteriorButton = document.getElementById("anterior");
+const siguienteButton = document.getElementById("siguiente");
+const resetButton = document.getElementById("reset");
+const turnoOperador = document.getElementById("turno-operador");
+const nuevo = document.getElementById("nuevo-turno");
 
-const numeroTurno = document.getElementById("numero-turno") as HTMLElement;
-const anterior = document.getElementById("anterior") as HTMLElement;
-const siguiente = document.getElementById("siguiente") as HTMLElement;
-const reset = document.getElementById("reset") as HTMLElement;
-const TurnoOperador = document.getElementById("turno-operador") as HTMLElement;
-const nuevo = document.getElementById("nuevo-turno") as HTMLInputElement;
+// Validar elementos con instanceof
+if (
+    numeroTurnoElement instanceof HTMLElement &&
+    anteriorButton instanceof HTMLButtonElement &&
+    siguienteButton instanceof HTMLButtonElement &&
+    resetButton instanceof HTMLButtonElement &&
+    turnoOperador instanceof HTMLButtonElement &&
+    nuevo instanceof HTMLInputElement
+) {
+    // Turno inicial
+    let turnoActual: number = 0;
 
-//Turno inicial
+    // Actualizar turno
+    const actualizaTurno = () => {
+        numeroTurnoElement.textContent = turnoActual.toString().padStart(2, "0");
+    };
 
-let turnoActual : number = 0;
+    // Disminuir el turno
+    const disminuirTurno = () => {
+        turnoActual = Math.max(0, turnoActual - 1);
+        actualizaTurno();
+    };
 
-//Actualizar turno
+    // Aumentar el turno
+    const aumentaTurno = () => {
+        turnoActual = Math.max(0, turnoActual + 1);
+        actualizaTurno();
+    };
 
-const actualizaTurno = () => {
+    // Resetear el turno
+    const resetTurno = () => {
+        turnoActual = 0;
+        actualizaTurno();
+    };
 
-    numeroTurno.textContent = turnoActual.toString().padStart(2,"0");
+    // Cambiar turno usando el valor del input
+    const ponTurno = () => {
+        turnoActual = parseInt(nuevo.value);
+        turnoActual = Math.max(0, turnoActual);
+        actualizaTurno();
+    };
 
+
+    // Clicks del ratón
+    siguienteButton.addEventListener("click", aumentaTurno);
+    anteriorButton.addEventListener("click", disminuirTurno);
+    resetButton.addEventListener("click", resetTurno);
+    turnoOperador.addEventListener("click", ponTurno);
 }
-
-//Disminuir el turno
-
-const disminuirTurno = () => {
-
-    turnoActual = Math.max(0, turnoActual - 1);
-    actualizaTurno ();
-
-}
-
-
-// Aumento turno
-
-const aumentaTurno = () => {
-
-    turnoActual = Math.max(0, turnoActual + 1);
-    actualizaTurno();
-}
-
-//Reseteo el turno
-
-const resetTurno = () => {
-
-    turnoActual = 0;
-    actualizaTurno();
-
-}
-
-//Turno operador
-
-
-const ponTurno = () => {
-
-    turnoActual = parseInt(nuevo.value);
-    actualizaTurno();
-}
-
-
-
-//Acciones de click
-
-
-siguiente.addEventListener("click" , aumentaTurno);
-
-anterior.addEventListener("click" , disminuirTurno);
-
-reset.addEventListener("click" , resetTurno);
-
-TurnoOperador.addEventListener("click" , ponTurno);
 
 
 
