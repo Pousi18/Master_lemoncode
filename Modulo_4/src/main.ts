@@ -4,6 +4,8 @@ const numeroTurno = document.getElementById("numero-turno") as HTMLElement;
 const anterior = document.getElementById("anterior") as HTMLElement;
 const siguiente = document.getElementById("siguiente") as HTMLElement;
 const reset = document.getElementById("reset") as HTMLElement;
+const TurnoOperador = document.getElementById("turno-operador") as HTMLElement;
+const nuevo = document.getElementById("nuevo-turno") as HTMLInputElement;
 
 //Turno inicial
 
@@ -44,7 +46,14 @@ const resetTurno = () => {
 
 }
 
+//Turno operador
 
+
+const ponTurno = () => {
+
+    turnoActual = parseInt(nuevo.value);
+    actualizaTurno();
+}
 
 
 
@@ -56,6 +65,8 @@ siguiente.addEventListener("click" , aumentaTurno);
 anterior.addEventListener("click" , disminuirTurno);
 
 reset.addEventListener("click" , resetTurno);
+
+TurnoOperador.addEventListener("click" , ponTurno);
 
 
 
