@@ -6,55 +6,64 @@ const resetButton = document.getElementById("reset");
 const turnoOperador = document.getElementById("turno-operador");
 const nuevo = document.getElementById("nuevo-turno");
 
-// Validar elementos con instanceof
-if (
-    numeroTurnoElement instanceof HTMLElement &&
-    anteriorButton instanceof HTMLButtonElement &&
-    siguienteButton instanceof HTMLButtonElement &&
-    resetButton instanceof HTMLButtonElement &&
-    turnoOperador instanceof HTMLButtonElement &&
-    nuevo instanceof HTMLInputElement
-) {
-    // Turno inicial
-    let turnoActual: number = 0;
+let turnoActual: number = 0;
 
-    // Actualizar turno
-    const actualizaTurno = () => {
-        numeroTurnoElement.textContent = turnoActual.toString().padStart(2, "0");
-    };
+const actualizaTurno = () => {
 
-    // Disminuir el turno
-    const disminuirTurno = () => {
-        turnoActual = Math.max(0, turnoActual - 1);
-        actualizaTurno();
-    };
+    if(numeroTurnoElement instanceof HTMLHeadingElement){
+    numeroTurnoElement.textContent = turnoActual.toString().padStart(2, "0");
+    }
+};
 
-    // Aumentar el turno
-    const aumentaTurno = () => {
-        turnoActual = Math.max(0, turnoActual + 1);
-        actualizaTurno();
-    };
 
-    // Resetear el turno
-    const resetTurno = () => {
-        turnoActual = 0;
-        actualizaTurno();
-    };
+const aumentaTurno = () => {
+    turnoActual = Math.max(0, turnoActual + 1);
+    actualizaTurno();
+};
 
-    // Cambiar turno usando el valor del input
-    const ponTurno = () => {
+const disminuirTurno = () => {
+    turnoActual = Math.max(0, turnoActual - 1);
+    actualizaTurno();
+};
+
+const resetTurno = () => {
+    turnoActual = 0;
+    actualizaTurno();
+};
+
+const ponTurno = () => {
+    if(nuevo instanceof HTMLInputElement){
         turnoActual = parseInt(nuevo.value);
         turnoActual = Math.max(0, turnoActual);
         actualizaTurno();
-    };
+    }
+    
+};
 
 
-    // Clicks del ratón
-    siguienteButton.addEventListener("click", aumentaTurno);
-    anteriorButton.addEventListener("click", disminuirTurno);
-    resetButton.addEventListener("click", resetTurno);
+
+if(turnoOperador instanceof HTMLButtonElement){
+
     turnoOperador.addEventListener("click", ponTurno);
 }
+
+
+if( resetButton instanceof HTMLButtonElement){
+
+    resetButton.addEventListener("click", resetTurno);
+}
+
+
+if(anteriorButton instanceof HTMLButtonElement){
+
+    anteriorButton.addEventListener("click", disminuirTurno);
+ 
+}
+
+if(siguienteButton instanceof HTMLButtonElement){
+    siguienteButton.addEventListener("click", aumentaTurno);
+}
+
 
 
 
