@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="src/style.css">
+    <script type="module" src="/src/main.ts"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Juego</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Juego de las siete y media</h1>
+    </div>
+    <div>
+      <button id="solicitar">Solicitar nueva carta</button>
+      <button id="plantarse">Me planto</button>
+      <!-- Muestro boton cuanda acaba partida o se planta -->
+      <button id="nueva-partida" style="display: none">Nueva partida</button>
+      <!-- Muestro boton para ver que hubiera pasado -->
+       <button id="pasado" style="display: none"> ¿Que hubiera pasado? </button>
+    </div>
+    <div id="puntuacion"> Puntuación : 0</div>
+    <div id ="contenedor-carta">
+      <img src="https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/refs/heads/main/cartas/back.jpg" id="imagenCarta">
+    </div>
+    <div id="mensaje-puntuacion"></div>
+    <div id="mensaje-simulacion"></div>
+
+  </body>
+</html>
