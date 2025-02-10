@@ -132,6 +132,9 @@ let puntuacionJugador = 0;
 
     }
 
+
+//Calcular puntuacion carta
+
     function calcularPuntuacionCarta (numeroCarta:number){
         const puntuacion = numeroCarta >= 10 ? 0.5 : numeroCarta;
         puntuacionJugador = puntuacionJugador + puntuacion;
@@ -213,7 +216,7 @@ function nuevaPartida (){
 
 botonNuevaPartida.addEventListener("click", nuevaPartida);
 
-
+// Funcion de pedir las cartas para ponerlo con el boton de que habria pasado
 
 function pedirCartas () {
 
@@ -224,6 +227,8 @@ function pedirCartas () {
 
     simulacionPuntosCarta += cartaSimulada >= 7 ? 0.5 : cartaSimulada
 
+
+    // No se si esto esta bien o habria que poner otras condiciones 
     if(simulacionPuntosCarta<4){
 
         mensajePuntuacionSimulacion.textContent = `Has sido muy conservador`
