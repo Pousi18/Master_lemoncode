@@ -130,7 +130,7 @@ const solicitarCarta = () => {
   muestraPuntuacionJugador(puntosSumados);
   comprobarPartida();
 };
-
+//solo se ejecuta al hacer click
 //Boton de pedir carta
 
 const botonSolicitarCarta = document.getElementById("solicitar");
@@ -163,31 +163,53 @@ if (
   botonNuevaPartida.addEventListener("click", nuevaPartida);
 }
 
-// Función completa de simulacion de que hubiera pasado si sigo pidiendo cartas
+//Me quedo aquí para la meet del día siguiente
 
-const simularQueHubieraPasado = () => {
-  let simulacionPuntuacion = puntuacionJugador;
+// Calcular la puntuación de simulación
+
+const calcularPuntosSimulacion = (puntuacionActual: number): number => {
+  const cartaSimulacion = numeroAleatorio();
+
+  const carta = obtenerNumeroCarta(cartaSimulacion);
+
+  const PuntosCartaSimulada = obtenerPuntosCarta(carta);
+
+  return (puntuacionActual += PuntosCartaSimulada);
+};
+
+//Obtener mensaje simulación
+
+const obtenerMensajeSimulacion = (simulacionPuntuacion: number): string => {
+  if (simulacionPuntuacion > 7.5) {
+    return "Si hubieras continuado, te habrías pasado y perdido.";
+  } else if (simulacionPuntuacion === 7.5) {
+    return "Si hubieras seguido, podrías haber ganado.";
+  } else {
+    return "Si hubieras seguido, podrías haber continuado sin pasarte.";
+  }
+};
+
+//Mostrar mensaje en dom
+
+const mostrarMensajeSimulacion = (mensaje: string): void => {
   const mensajeSimulacion = document.getElementById("mensaje-simulacion");
   if (
     mensajeSimulacion !== null &&
     mensajeSimulacion !== undefined &&
     mensajeSimulacion instanceof HTMLDivElement
   ) {
-    const cartaAleatoria = numeroAleatorio();
-    const carta = obtenerNumeroCarta(cartaAleatoria);
-    const puntosCarta = obtenerPuntosCarta(carta);
-    simulacionPuntuacion += puntosCarta;
-    if (simulacionPuntuacion > 7.5) {
-      mensajeSimulacion.textContent =
-        "Si hubieras continuado, te habrías pasado y perdido.";
-    } else if (simulacionPuntuacion === 7.5) {
-      mensajeSimulacion.textContent =
-        "Si hubieras seguido, podrías haber ganado.";
-    } else {
-      mensajeSimulacion.textContent =
-        "Si hubieras seguido, podrías haber continuado sin pasarte.";
-    }
+    mensajeSimulacion.textContent = mensaje;
   }
+};
+
+//Función principal que hubiera pasado
+
+const simularQueHubieraPasado = () => {
+  const simulacion = calcularPuntosSimulacion(puntuacionJugador);
+
+  const mensajeDeSimulacion = obtenerMensajeSimulacion(simulacion);
+
+  mostrarMensajeSimulacion(mensajeDeSimulacion);
 };
 
 //Botón de que hubiera pasado
@@ -201,5 +223,23 @@ if (
   botonPasado.addEventListener("click", simularQueHubieraPasado);
 }
 
-//Faltaria la función plantarse deshabilitando los botones
-//Funcionalidad de plantarse y detener el flujo de los condicionales
+//Funcionalidad botones
+
+
+// Deshabilitar botones
+
+// Dentro de la funcion meter los botones de solicitarCarta y plantarse y con condicional deshabilitarlos con boolean true
+
+// Habilitar botones
+
+// Dentro de la funcion meter los botones de solicitarCarta y plantarse y con condicional habilitarlos con boolean false
+
+//Función de boton plantarse
+
+// hacer const de plantarse y meter función de comprobarpartida() y con la funcion de deshabilitarbotones() y meter la funcionalidad de quitar(deshabilitar/remover) boton nueva partida y me planto
+
+//Hacer boton me planto y asignarla a la funcion de plantarse
+
+
+
+//Una funcion para reiniciar partida 
