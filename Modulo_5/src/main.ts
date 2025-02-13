@@ -1,271 +1,205 @@
-window.addEventListener("DOMContentLoaded", () => {
- 
-// Aquí poner los botones y el div
-
-const imagenCarta = document.getElementById("imagenCarta") as HTMLImageElement;
-
-const botonSolicitar = document.getElementById("solicitar") as HTMLButtonElement;
-
-const botonPlantarse = document.getElementById("plantarse") as HTMLButtonElement;
-
-const mostrarPuntuacion = document.getElementById("puntuacion") as HTMLDivElement;
-
-const mensajePuntuacion = document.getElementById("mensaje-puntuacion") as HTMLDivElement;
-
-const mensajePuntuacionSimulacion = document.getElementById("mensaje-simulacion") as HTMLDivElement;
-
-
-const botonNuevaPartida = document.getElementById("nueva-partida") as HTMLDivElement;
-
-const botonQueHabriaPasado = document.getElementById("pasado") as HTMLButtonElement;
-
-
-// mostrarPuntuacion != null && mostrarPuntuacion != undefined && mostrarPuntuacion instanceof HTMLInputElement , lado del servidor ;
-
-
-// Poner puntaje del jugador
+//Hay que generar el numero aleatorio
 
 let puntuacionJugador = 0;
 
- 
-    
-    function cartaAleatoria  ()  {
+const numeroAleatorio = () => {
+  return Math.floor(Math.random() * 10) + 1;
+};
 
-        const numeroCarta = obtenerCarta();
+//Obtener el numero de la carta
 
-        mostrarCarta(numeroCarta);
+const obtenerNumeroCarta = (numeroAleatorio: number): number => {
+  return numeroAleatorio > 7 ? numeroAleatorio + 2 : numeroAleatorio;
+};
 
-        sumarPuntuacion(numeroCarta);
+//Calcular los puntos de la carta
 
+const obtenerPuntosCarta = (carta: number): number => {
+  return carta > 7 ? 0.5 : carta;
+};
 
-        //se puede hacer con if else, funcion padre de obtener y mostrar carta
+//Imagen de la carta boca abajo
+
+const mostrarImagenCarta = (urlDeCarta: string): void => {
+  const imagenCarta = document.getElementById("imagenCarta");
+  if (
+    imagenCarta !== null &&
+    imagenCarta !== undefined &&
+    imagenCarta instanceof HTMLImageElement
+  ) {
+    imagenCarta.src = urlDeCarta;
+  }
+};
+
+//Poner cada carta con su imagen correspondiente
+
+const obtenerImagenCarta = (carta: number): string => {
+  switch (carta) {
+    case 1:
+      return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/1_as-copas.jpg";
+
+    case 2:
+      return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/2_dos-copas.jpg";
+
+    case 3:
+      return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/3_tres-copas.jpg";
+
+    case 4:
+      return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/4_cuatro-copas.jpg";
+
+    case 5:
+      return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/5_cinco-copas.jpg";
+
+    case 6:
+      return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/6_seis-copas.jpg";
+
+    case 7:
+      return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/7_siete-copas.jpg";
+
+    case 10:
+      return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/10_sota-copas.jpg";
+
+    case 11:
+      return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/11_caballo-copas.jpg";
+
+    case 12:
+      return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/12_rey-copas.jpg";
+
+    default:
+      return "Carta no reconocida";
+  }
+};
+
+//Pongo una funcion para mostrar la puntuación del jugador y sus puntos actuales
+
+const muestraPuntuacionJugador = (puntosActuales: number) => {
+  const mostrarPuntuacion = document.getElementById("puntuacion");
+  if (
+    mostrarPuntuacion !== null &&
+    mostrarPuntuacion !== undefined &&
+    mostrarPuntuacion instanceof HTMLDivElement
+  ) {
+    mostrarPuntuacion.textContent = `Puntuacion: ${puntuacionJugador} `;
+  }
+
+  puntuacionJugador = puntosActuales;
+};
+
+//Suma de la puntuacion
+
+const sumarPuntuacionJugador = (puntos: number): number => {
+  puntuacionJugador += puntos;
+  return puntuacionJugador;
+};
+
+//Comprobar los puntos y mensajes de estado
+
+const comprobarPartida = () => {
+  const mostrarMensajePuntuacion =
+    document.getElementById("mensaje-puntuacion");
+  if (
+    mostrarMensajePuntuacion !== null &&
+    mostrarMensajePuntuacion !== undefined &&
+    mostrarMensajePuntuacion instanceof HTMLDivElement
+  ) {
+    if (puntuacionJugador < 4) {
+      mostrarMensajePuntuacion.textContent = `Has sido muy conservador`;
+    } else if (puntuacionJugador === 5) {
+      mostrarMensajePuntuacion.textContent = `Te ha entrado el cangelo eh?`;
+    } else if (puntuacionJugador === 6 || puntuacionJugador === 7) {
+      mostrarMensajePuntuacion.textContent = `Casi , casi`;
+    } else if (puntuacionJugador === 7.5) {
+      mostrarMensajePuntuacion.textContent = `¡Los has clavado! ¡Enhorabuena!`;
+    } else if (puntuacionJugador > 7.5) {
+      mostrarMensajePuntuacion.textContent = `Game over`;
+    } else {
+      mostrarMensajePuntuacion.textContent = "";
     }
+  }
+};
 
-    botonSolicitar.addEventListener("click", cartaAleatoria);  
+//Todas las funciones al pedir la carta
 
-//  Poner el número aleatorio
+const solicitarCarta = () => {
+  const cartaAleatoria = numeroAleatorio();
+  const carta = obtenerNumeroCarta(cartaAleatoria);
+  const urlCarta = obtenerImagenCarta(carta);
+  mostrarImagenCarta(urlCarta);
+  const puntosCarta = obtenerPuntosCarta(carta);
+  const puntosSumados = sumarPuntuacionJugador(puntosCarta);
+  muestraPuntuacionJugador(puntosSumados);
+  comprobarPartida();
+};
 
-    function obtenerCarta () {
+//Boton de pedir carta
 
-        //Numero aleatorio 
-
-        const numero = Math.floor(Math.random()*10) + 1;
-
-        //Las figuras sota , caballo y rey valen 0.5
- 
-        return numero > 7 ? numero + 2 : numero;
-
-    }
-
-//Poner el switch para mostrar la carta y su imagen
-
-    function mostrarCarta (numeroCarta:number) {
-
-        switch(numeroCarta){
-
-            case 1:
-            imagenCarta.src = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/1_as-copas.jpg";
-
-            break;
-
-            case 2: 
-
-            imagenCarta.src = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/2_dos-copas.jpg";
-
-            break;
-            
-            case 3:
-            
-            imagenCarta.src = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/3_tres-copas.jpg";
-
-            break;
-
-            case 4:
-            
-            imagenCarta.src = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/4_cuatro-copas.jpg";
-            
-            break;
-
-            case 5:
-            
-            imagenCarta.src = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/5_cinco-copas.jpg";
-            
-            break;
-
-            case 6:
-            
-            imagenCarta.src = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/6_seis-copas.jpg";
-
-            break;
-
-            case 7:
-            
-            imagenCarta.src = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/7_siete-copas.jpg";
-
-            break;
-
-            case 10:
-            
-            imagenCarta.src = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/10_sota-copas.jpg";
-
-            break;
-
-            case 11:
-            
-            imagenCarta.src = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/11_caballo-copas.jpg";
-
-            break;
-
-            case 12:
-            
-            imagenCarta.src = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/12_rey-copas.jpg";
-
-            break;
-
-            default:            
-            
-            console.error("Carta no reconocida");
-
-            
-        }
-
-
-    }
-
-
-//Calcular puntuacion carta
-
-    function calcularPuntuacionCarta (numeroCarta:number){
-        const puntuacion = numeroCarta >= 10 ? 0.5 : numeroCarta;
-        puntuacionJugador = puntuacionJugador + puntuacion;
-    }
-
-
-//Pongo una funcion para mostrar la puntuación del jugador
-     
-    function muestraPuntuacion (){
-
-         mostrarPuntuacion.textContent = `Puntuacion: ${puntuacionJugador} ` ;
-         
-    
-    }
-
-     
-//Pongo la suma de la puntuacion y si pasa de 7.5 que de game over
-    
-    function sumarPuntuacion(numeroCarta : number){
-
-    calcularPuntuacionCarta(numeroCarta);
-
-    muestraPuntuacion();
-
-    if(puntuacionJugador > 7.5){
-        alert ("Game over: ¡Te has pasado de 7.5 puntos");
-        botonNuevaPartida.style.display = "block";
-        botonSolicitar.disabled = true;
-    }
-
-
-    }
-
-// función boton me planto y que pase por el div el mensaje y quite los botones
-
-    function mePlanto (){
-        botonNuevaPartida.style.display = "block"; //Ver display 
-        botonSolicitar.disabled = true;    
-        botonPlantarse.disabled = true;   
-        botonQueHabriaPasado.style.display = "block";
-
-
-if(puntuacionJugador<4){
-
-    mensajePuntuacion.textContent = `Has sido muy conservador`
-
-}else if(puntuacionJugador===5){
-
-    mensajePuntuacion.textContent = `Te ha entrado el cangelo eh?`
-
-}else if(puntuacionJugador === 6 || puntuacionJugador === 7){
-
-    mensajePuntuacion.textContent = `Casi , casi`
-
-}else if (puntuacionJugador === 7.5){
-
-    mensajePuntuacion.textContent = `¡Los has clavado! ¡Enhorabuena!`
-
+const botonSolicitarCarta = document.getElementById("solicitar");
+if (
+  botonSolicitarCarta !== null &&
+  botonSolicitarCarta !== undefined &&
+  botonSolicitarCarta instanceof HTMLButtonElement
+) {
+  botonSolicitarCarta.addEventListener("click", solicitarCarta);
 }
 
-    }
+//Función de reiniciar el juego al pedir la carta
 
-    botonPlantarse.addEventListener("click", mePlanto);
+const nuevaPartida = () => {
+  mostrarImagenCarta(
+    "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/refs/heads/main/cartas/back.jpg"
+  );
+  puntuacionJugador = 0;
+  muestraPuntuacionJugador(puntuacionJugador);
+};
 
+//Botón nueva partida
 
-//Funcion nueva partida
-
-function nuevaPartida (){
-    //Esconder boton al hacer click y volver a mostrarlo cuando ha terminado o plantado
-    botonNuevaPartida.style.display = "none";
-    botonSolicitar.disabled = false;
-    botonPlantarse.disabled = false;
-    puntuacionJugador = 0;
-    muestraPuntuacion();
-    imagenCarta.src = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/refs/heads/main/cartas/back.jpg";
-    mensajePuntuacion.textContent = ""; // Limpiar mensaje de puntuación
-    mensajePuntuacionSimulacion.textContent = ""; // Limpiar mensaje de simulación
+const botonNuevaPartida = document.getElementById("nueva-partida");
+if (
+  botonNuevaPartida !== null &&
+  botonNuevaPartida !== undefined &&
+  botonNuevaPartida instanceof HTMLButtonElement
+) {
+  botonNuevaPartida.addEventListener("click", nuevaPartida);
 }
 
-botonNuevaPartida.addEventListener("click", nuevaPartida);
+// Función completa de simulacion de que hubiera pasado si sigo pidiendo cartas
 
-// Funcion de pedir las cartas para ponerlo con el boton de que habria pasado
-
-function pedirCartas () {
-
-    let simulacionPuntosCarta = puntuacionJugador;
-
-
-    const cartaSimulada = obtenerCarta();
-
-    simulacionPuntosCarta += cartaSimulada >= 7 ? 0.5 : cartaSimulada
-
-
-    // No se si esto esta bien o habria que poner otras condiciones 
-    if(simulacionPuntosCarta<4){
-
-        mensajePuntuacionSimulacion.textContent = `Has sido muy conservador`
-    
-    }else if(simulacionPuntosCarta===5){
-    
-        mensajePuntuacionSimulacion.textContent = `Te ha entrado el cangelo eh?`
-    
-    }else if(simulacionPuntosCarta === 6 || puntuacionJugador === 7){
-    
-        mensajePuntuacionSimulacion.textContent = `Casi , casi`
-    
-    }else if (simulacionPuntosCarta === 7.5){
-    
-        mensajePuntuacionSimulacion.textContent = `¡Los has clavado! ¡Enhorabuena!`
-    
+const simularQueHubieraPasado = () => {
+  let simulacionPuntuacion = puntuacionJugador;
+  const mensajeSimulacion = document.getElementById("mensaje-simulacion");
+  if (
+    mensajeSimulacion !== null &&
+    mensajeSimulacion !== undefined &&
+    mensajeSimulacion instanceof HTMLDivElement
+  ) {
+    const cartaAleatoria = numeroAleatorio();
+    const carta = obtenerNumeroCarta(cartaAleatoria);
+    const puntosCarta = obtenerPuntosCarta(carta);
+    simulacionPuntuacion += puntosCarta;
+    if (simulacionPuntuacion > 7.5) {
+      mensajeSimulacion.textContent =
+        "Si hubieras continuado, te habrías pasado y perdido.";
+    } else if (simulacionPuntuacion === 7.5) {
+      mensajeSimulacion.textContent =
+        "Si hubieras seguido, podrías haber ganado.";
+    } else {
+      mensajeSimulacion.textContent =
+        "Si hubieras seguido, podrías haber continuado sin pasarte.";
     }
+  }
+};
 
+//Botón de que hubiera pasado
 
+const botonPasado = document.getElementById("pasado");
+if (
+  botonPasado !== null &&
+  botonPasado !== undefined &&
+  botonPasado instanceof HTMLButtonElement
+) {
+  botonPasado.addEventListener("click", simularQueHubieraPasado);
 }
 
-botonQueHabriaPasado.addEventListener("click", pedirCartas);
-
-
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//Faltaria la función plantarse deshabilitando los botones
+//Funcionalidad de plantarse y detener el flujo de los condicionales
