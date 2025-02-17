@@ -88,34 +88,55 @@ const muestraPuntuacionJugador = (puntosActuales: number) => {
 //Suma de la puntuacion
 
 const sumarPuntuacionJugador = (puntos: number): number => {
-  puntuacionJugador += puntos;
-  return puntuacionJugador;
+  return puntuacionJugador + puntos;
 };
+
+const actualizarPuntuacionJugador = (puntosSumados: number) => {
+  puntuacionJugador = puntosSumados;
+}
+
+const obtenerMensajeCuandoComprueboPartida = () => {
+  if (puntuacionJugador < 4) {
+    return `Has sido muy conservador`;
+  } else if (puntuacionJugador === 5) {
+    return `Te ha entrado el cangelo eh?`;
+  } else if (puntuacionJugador === 6 || puntuacionJugador === 7) {
+    return `Casi , casi`;
+  } else if (puntuacionJugador === 7.5) {
+    return `¡Los has clavado! ¡Enhorabuena!`;
+  } else if (puntuacionJugador > 7.5) {
+    return `Game over`;
+  } else {
+    return "";
+  }
+}
+
+const bloquearBotonSolicitarCarta = (estaBloqueado: boolean) => {
+  const botonSolicitarCarta = document.getElementById('solicitar');
+
+  if (botonSolicitarCarta !== null && botonSolicitarCarta !== undefined && botonSolicitarCarta instanceof HTMLButtonElement) {
+    botonSolicitarCarta.disabled = estaBloqueado;
+  }
+}
 
 //Comprobar los puntos y mensajes de estado
 
 const comprobarPartida = () => {
-  const mostrarMensajePuntuacion =
-    document.getElementById("mensaje-puntuacion");
-  if (
-    mostrarMensajePuntuacion !== null &&
-    mostrarMensajePuntuacion !== undefined &&
-    mostrarMensajePuntuacion instanceof HTMLDivElement
-  ) {
-    if (puntuacionJugador < 4) {
-      mostrarMensajePuntuacion.textContent = `Has sido muy conservador`;
-    } else if (puntuacionJugador === 5) {
-      mostrarMensajePuntuacion.textContent = `Te ha entrado el cangelo eh?`;
-    } else if (puntuacionJugador === 6 || puntuacionJugador === 7) {
-      mostrarMensajePuntuacion.textContent = `Casi , casi`;
-    } else if (puntuacionJugador === 7.5) {
-      mostrarMensajePuntuacion.textContent = `¡Los has clavado! ¡Enhorabuena!`;
-    } else if (puntuacionJugador > 7.5) {
-      mostrarMensajePuntuacion.textContent = `Game over`;
-    } else {
-      mostrarMensajePuntuacion.textContent = "";
-    }
+  if (puntuacionJugador === 7.5) {
+    mostrarMensaje('he ganado');
+    bloquearBotonSolicitarCarta(true);
   }
+
+  if (puntuacionJugador > 7.5) {
+    mostrarMensaje('he perdido');
+    bloquearBotonSolicitarCarta(true);
+  }
+};
+
+
+const plantarse = () => {
+  const mensaje = obtenerMensajeCuandoComprueboPartida();
+  mostrarMensaje(mensaje);
 };
 
 //Todas las funciones al pedir la carta
@@ -127,6 +148,7 @@ const solicitarCarta = () => {
   mostrarImagenCarta(urlCarta);
   const puntosCarta = obtenerPuntosCarta(carta);
   const puntosSumados = sumarPuntuacionJugador(puntosCarta);
+  actualizarPuntuacionJugador(puntosSumados);
   muestraPuntuacionJugador(puntosSumados);
   comprobarPartida();
 };
@@ -150,6 +172,7 @@ const nuevaPartida = () => {
   );
   puntuacionJugador = 0;
   muestraPuntuacionJugador(puntuacionJugador);
+  bloquearBotonSolicitarCarta(false);
 };
 
 //Botón nueva partida
@@ -167,15 +190,15 @@ if (
 
 // Calcular la puntuación de simulación
 
-const calcularPuntosSimulacion = (puntuacionActual: number): number => {
-  const cartaSimulacion = numeroAleatorio();
+// const calcularPuntosSimulacion = (puntuacionActual: number): number => {
+//   const cartaSimulacion = numeroAleatorio();
 
-  const carta = obtenerNumeroCarta(cartaSimulacion);
+//   const carta = obtenerNumeroCarta(cartaSimulacion);
 
-  const PuntosCartaSimulada = obtenerPuntosCarta(carta);
+//   const PuntosCartaSimulada = obtenerPuntosCarta(carta);
 
-  return (puntuacionActual += PuntosCartaSimulada);
-};
+//   return (puntuacionActual += PuntosCartaSimulada);
+// };
 
 //Obtener mensaje simulación
 
@@ -191,7 +214,7 @@ const obtenerMensajeSimulacion = (simulacionPuntuacion: number): string => {
 
 //Mostrar mensaje en dom
 
-const mostrarMensajeSimulacion = (mensaje: string): void => {
+const mostrarMensaje = (mensaje: string): void => {
   const mensajeSimulacion = document.getElementById("mensaje-simulacion");
   if (
     mensajeSimulacion !== null &&
@@ -205,11 +228,15 @@ const mostrarMensajeSimulacion = (mensaje: string): void => {
 //Función principal que hubiera pasado
 
 const simularQueHubieraPasado = () => {
-  const simulacion = calcularPuntosSimulacion(puntuacionJugador);
-
-  const mensajeDeSimulacion = obtenerMensajeSimulacion(simulacion);
-
-  mostrarMensajeSimulacion(mensajeDeSimulacion);
+  const numeroAleatorioSimulado = numeroAleatorio();
+  const carta = obtenerNumeroCarta(numeroAleatorioSimulado);
+  const urlCartaSimulada = obtenerImagenCarta(carta);
+  mostrarImagenCarta(urlCartaSimulada);
+  const puntuacionSimulada = obtenerPuntosCarta(carta);
+  const puntosSumados = sumarPuntuacionJugador(puntuacionSimulada);
+  actualizarPuntuacionJugador(puntosSumados);
+  const mensajeDeSimulacion = obtenerMensajeSimulacion(puntuacionJugador);
+  mostrarMensaje(mensajeDeSimulacion);
 };
 
 //Botón de que hubiera pasado
@@ -223,23 +250,14 @@ if (
   botonPasado.addEventListener("click", simularQueHubieraPasado);
 }
 
-//Funcionalidad botones
+const botonPlantarse = document.getElementById('plantarse');
+
+if (
+  botonPlantarse !== null &&
+  botonPlantarse !== undefined &&
+  botonPlantarse instanceof HTMLButtonElement
+) {
+  botonPlantarse.addEventListener("click", plantarse);
+}
 
 
-// Deshabilitar botones
-
-// Dentro de la funcion meter los botones de solicitarCarta y plantarse y con condicional deshabilitarlos con boolean true
-
-// Habilitar botones
-
-// Dentro de la funcion meter los botones de solicitarCarta y plantarse y con condicional habilitarlos con boolean false
-
-//Función de boton plantarse
-
-// hacer const de plantarse y meter función de comprobarpartida() y con la funcion de deshabilitarbotones() y meter la funcionalidad de quitar(deshabilitar/remover) boton nueva partida y me planto
-
-//Hacer boton me planto y asignarla a la funcion de plantarse
-
-
-
-//Una funcion para reiniciar partida 
